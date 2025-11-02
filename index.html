@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Concert Ticket Photo</title>
-  <meta name="description" content="Password-protected concert ticket photo" />
+  <meta name="description" content="Concert ticket photo viewer" />
   <style>
     :root { color-scheme: light dark; }
     body {
@@ -13,7 +13,7 @@
       min-height: 100dvh;
       display: grid;
       place-items: center;
-      background: #0b0b0c;
+      background: linear-gradient(135deg, #0b0b0c 0%, #1a1a1f 100%);
       color: #fff;
     }
     .card {
@@ -23,6 +23,11 @@
       border-radius: 16px;
       padding: 20px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+      animation: fadeIn 0.5s ease-in;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
     h1 { margin: 0 0 12px; font-size: 22px; font-weight: 650; }
     p { margin: 0 0 14px; color: #c9c9d1; }
@@ -49,7 +54,8 @@
     button:hover { filter: brightness(1.1); }
     .error { color: #ff6b6b; margin-top: 8px; min-height: 1.2em; }
     .photo-wrap { margin-top: 14px; }
-    img.photo { width: 100%; height: auto; border-radius: 12px; display: block; }
+    img.photo { width: 100%; height: auto; border-radius: 12px; display: block; transition: transform 0.3s ease, box-shadow 0.3s ease; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
+    img.photo:hover { transform: scale(1.05); box-shadow: 0 8px 40px rgba(0,0,0,0.7); }
     .footer { margin-top: 14px; font-size: 13px; color: #a9adba; display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
     a { color: #8ab4ff; text-decoration: none; }
     a:hover { text-decoration: underline; }
@@ -58,59 +64,17 @@
 </head>
 <body>
   <main class="card">
-    <div id="gate">
-      <h1>Enter Ticket Password</h1>
-      <p>Please enter the password to view the concert ticket photo.</p>
-      <div class="form-row">
-        <input id="password" type="password" inputmode="numeric" autocomplete="off" placeholder="Password" />
-        <button id="unlock">Unlock</button>
-      </div>
-      <div id="error" class="error"></div>
-    </div>
-
-    <div id="photoSection" class="photo-wrap" style="display:none">
+    <div id="photoSection" class="photo-wrap">
+      <h1>75 Years Celebration Concert Ticket</h1>
       <img class="photo" alt="Concert Ticket Photo" src="75 years celebrationm (1920 x 1080 px).png" />
       <div class="footer">
-        <span>Protected content unlocked.</span>
+        <span>Concert Ticket Photo</span>
         <span>© 2025 All rights reserved.</span>
       </div>
     </div>
   </main>
 
-  <script>
-    (function () {
-      const PASSWORD = "195075";
-      const byId = (id) => document.getElementById(id);
-      const field = byId("password");
-      const btn = byId("unlock");
-      const err = byId("error");
-      const gate = byId("gate");
-      const section = byId("photoSection");
 
-      function reveal() {
-        gate.style.display = "none";
-        section.style.display = "block";
-      }
-
-      function check() {
-        const value = (field.value || "").trim();
-        if (value === PASSWORD) {
-          reveal();
-        } else {
-          err.textContent = "Incorrect password. Please try again.";
-          field.focus();
-          field.select();
-        }
-      }
-
-      btn.addEventListener("click", check);
-      field.addEventListener("keydown", function (e) {
-        if (e.key === "Enter") check();
-      });
-
-      field.focus();
-    })();
-  </script>
 </body>
 </html>
 
